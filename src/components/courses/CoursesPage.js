@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as courseActions from "../../redux/actions/courseActions";
+import PropTypes from "prop-types";
 
 class CoursesPage extends React.Component {
   //   constructor(props) {
@@ -35,7 +38,8 @@ class CoursesPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    alert(this.state.course.title);
+    // alert(this.state.course.title);
+    this.props.dispatch(courseActions.createCourse(this.state.course)); //since we don't pass mapDispatchToProps to connect, dispatch is attached to props automatically
   };
 
   render() {
@@ -54,4 +58,14 @@ class CoursesPage extends React.Component {
   }
 }
 
-export default CoursesPage;
+CoursesPage.propTypes = {
+  dispatch: PropTypes.func.isRequired, // we specified that we are expecting this dispatch property to be attached
+};
+
+function mapStateToProps(state) {
+  return {
+    courses: state.courses, // we need to be here as specific as possible to bind only data that component needs
+  };
+}
+
+export default connect(mapStateToProps)(CoursesPage);
