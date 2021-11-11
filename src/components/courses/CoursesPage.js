@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
 
 class CoursesPage extends React.Component {
   //   constructor(props) {
@@ -41,7 +42,7 @@ class CoursesPage extends React.Component {
     // alert(this.state.course.title);
     // this.props.dispatch(courseActions.createCourse(this.state.course)); // since we don't pass mapDispatchToProps to connect, dispatch is attached to props automatically
 
-    this.props.createCourse(this.state.course); // this is now passed to props via mapDispatchToProps func
+    this.props.actions.createCourse(this.state.course); // this is now passed to props via mapDispatchToProps func
   };
 
   render() {
@@ -65,7 +66,7 @@ class CoursesPage extends React.Component {
 }
 
 CoursesPage.propTypes = {
-  createCourse: PropTypes.func.isRequired, // we specified that we are expecting this dispatch property to be attached
+  actions: PropTypes.object.isRequired, // we specified that we are expecting this dispatch property to be attached
   courses: PropTypes.array.isRequired,
 };
 
@@ -77,7 +78,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createCourse: (course) => dispatch(courseActions.createCourse(course)),
+    // createCourse: (course) => dispatch(courseActions.createCourse(course)), // manually
+    actions: bindActionCreators(courseActions, dispatch), // bind all actions to props  automatically
   };
 }
 
