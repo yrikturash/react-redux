@@ -39,7 +39,9 @@ class CoursesPage extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     // alert(this.state.course.title);
-    this.props.dispatch(courseActions.createCourse(this.state.course)); //since we don't pass mapDispatchToProps to connect, dispatch is attached to props automatically
+    // this.props.dispatch(courseActions.createCourse(this.state.course)); // since we don't pass mapDispatchToProps to connect, dispatch is attached to props automatically
+
+    this.props.createCourse(this.state.course); // this is now passed to props via mapDispatchToProps func
   };
 
   render() {
@@ -63,7 +65,7 @@ class CoursesPage extends React.Component {
 }
 
 CoursesPage.propTypes = {
-  dispatch: PropTypes.func.isRequired, // we specified that we are expecting this dispatch property to be attached
+  createCourse: PropTypes.func.isRequired, // we specified that we are expecting this dispatch property to be attached
   courses: PropTypes.array.isRequired,
 };
 
@@ -73,4 +75,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CoursesPage);
+function mapDispatchToProps(dispatch) {
+  return {
+    createCourse: (course) => dispatch(courseActions.createCourse(course)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
