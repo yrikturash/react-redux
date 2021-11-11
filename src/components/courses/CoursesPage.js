@@ -79,8 +79,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     // createCourse: (course) => dispatch(courseActions.createCourse(course)), // manually
-    actions: bindActionCreators(courseActions, dispatch), // bind all actions to props  automatically
+    actions: bindActionCreators(courseActions, dispatch), // bind all actions to props  automatically, this is better as we won't need to change it when adding new action
   };
 }
+
+// this also can be done as object, which looks simple but will need some maintenance when adding new actions
+// const mapDispatchToProps = {
+//   createCourse: courseActions.createCourse,
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
